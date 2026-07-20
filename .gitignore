@@ -1,0 +1,27 @@
+# Solution time directories
+[1-9]*
+0.[0-9]*
+
+# Generated mesh
+**/constant/polyMesh/
+
+# Parallel decomposition
+**/processor*/
+
+# Post-processing
+**/postProcessing/
+
+# Logs
+**/log.*
+
+# ParaView marker files
+**/*.OpenFOAM
+
+# Core dumps
+core
+core.*
+**/core
+**/core.*
+
+# Temporary editor files
+*~
