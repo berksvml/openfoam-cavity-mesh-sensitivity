@@ -356,42 +356,49 @@ A time-step of \(0.0005\) s was used for numerical stability.
 
 ---
 
-## 📉 Mesh Sensitivity Comparison
+## 📉 Mesh Sensitivity and Validation Comparison
 
-The approximate minimum vertical-centreline velocities are:
-
-| Mesh | Approximate minimum \(U_x\) |
-|---|---:|
-| 40 × 40 | \(-0.17\) m/s |
-| 80 × 80 | \(-0.33\) m/s |
-| 160 × 160 | \(-0.40\) m/s |
-
-The approximate changes between successive mesh levels are:
-
-| Refinement | Change in minimum \(U_x\) magnitude |
-|---|---:|
-| 40 × 40 → 80 × 80 | 0.16 m/s |
-| 80 × 80 → 160 × 160 | 0.07 m/s |
-
-The change between the 80 × 80 and 160 × 160 solutions is smaller than the change between the 40 × 40 and 80 × 80 solutions.
-
-This indicates a convergence trend with mesh refinement.
-
-However, visible differences remain between the two finest meshes.
-
-Therefore, strict grid independence has not yet been demonstrated.
-
-> [!NOTE]
-> Since the 160 × 160 case uses a smaller time-step, the present comparison includes both spatial and temporal refinement effects.
+The vertical centreline velocity profiles were compared for the three investigated mesh resolutions and against the benchmark data of Ghia et al. at \(Re = 10{,}000\).
 
 <div align="center">
 
-<img src="images/centreline_velocity_comparison.png" width="750">
+<img src="images/centreline_velocity_comparison_with_benchmark.png" width="800">
 
 </div>
 
-The comparison shows that the 40 × 40 mesh produces a substantially different centreline velocity profile, particularly in the reverse-flow region and near the moving lid. The 80 × 80 and 160 × 160 results are closer to each other, indicating a convergence trend. However, visible differences remain between the two finest meshes, so strict grid independence has not yet been demonstrated.
+The minimum vertical-centreline \(U_x\) values obtained from the exported CSV data are:
+
+| Mesh | Minimum \(U_x\) | Location |
+|---|---:|---:|
+| 40 × 40 | \(-0.171446\) m/s | \(y = 0.0100\) m |
+| 80 × 80 | \(-0.326312\) m/s | \(y = 0.0062\) m |
+| 160 × 160 | \(-0.404567\) m/s | \(y = 0.0050\) m |
+| Ghia et al. benchmark | approximately \(-0.42735\) | \(y/L \approx 0.0547\) |
+
+The changes in minimum reverse-flow velocity between successive mesh levels are:
+
+| Refinement | Change in minimum \(U_x\) magnitude |
+|---|---:|
+| 40 × 40 → 80 × 80 | 0.154866 m/s |
+| 80 × 80 → 160 × 160 | 0.078255 m/s |
+
+The change between the 80 × 80 and 160 × 160 solutions is smaller than the change between the 40 × 40 and 80 × 80 solutions.
+
+This indicates a clear convergence trend with mesh refinement.
+
+The 40 × 40 mesh produces a substantially different centreline profile, especially in the lower reverse-flow region and near the moving lid. The 80 × 80 and 160 × 160 solutions reproduce the overall benchmark trend more closely.
+
+Among the investigated cases, the 160 × 160 mesh gives the closest agreement with the Ghia et al. benchmark in the lower recirculation region.
+
+However, visible deviations remain in the central and upper portions of the cavity. Strict grid independence and full validation have therefore not yet been demonstrated.
+
+> [!NOTE]
+> The 160 × 160 case was simulated using \(\Delta t = 0.0005\) s, while the 40 × 40 and 80 × 80 cases used \(\Delta t = 0.001\) s.
+>
+> The present comparison therefore includes both spatial and temporal refinement effects.
+
 ---
+
 
 ## ⏱️ Temporal Behaviour
 
@@ -484,33 +491,44 @@ The smaller time-step used for the 160 × 160 case was necessary to avoid numeri
 
 ---
 
-# ✅ Main Conclusions
+## ✅ Main Conclusions
 
 1. The 40 × 40 mesh is too coarse to resolve the recirculating flow structure adequately.
 
 2. Mesh refinement produces stronger reverse flow and sharper near-wall velocity gradients.
 
-3. The difference between the 80 × 80 and 160 × 160 solutions is smaller than the difference between the 40 × 40 and 80 × 80 solutions.
+3. The 80 × 80 and 160 × 160 solutions are closer to each other than either is to the 40 × 40 solution.
 
-4. The refinement sequence indicates a spatial convergence trend.
+4. The decreasing change between successive mesh levels indicates a spatial convergence trend.
 
-5. The centreline profiles are approximately time-invariant between \(t=8\) and \(10\) s for each individual mesh.
+5. The vertical centreline profiles are approximately time-invariant between \(t=8\) s and \(t=10\) s for each individual mesh.
 
-6. Strict grid independence has not yet been demonstrated because visible differences remain between the two finest meshes.
+6. The 160 × 160 solution provides the closest agreement with the Ghia et al. benchmark among the three investigated cases.
 
-7. Since the 160 × 160 simulation uses a smaller time-step, the project should be described as a combined mesh and time-step sensitivity study.
+7. The finest mesh predicts a minimum centreline velocity of \(-0.404567\) m/s, compared with the benchmark value of approximately \(-0.42735\).
+
+8. Visible differences remain between the 80 × 80 and 160 × 160 solutions, so strict grid independence has not yet been demonstrated.
+
+9. Deviations from the benchmark remain in the central and upper portions of the cavity, so the solution should not yet be considered fully validated.
+
+10. Since the 160 × 160 case uses a smaller time-step, the project is more accurately described as a combined mesh, time-step, and benchmark sensitivity study.
 
 ---
 
 ## ⚠️ Limitations
 
-- The finest mesh uses a different time-step.
-- The results have not yet been compared with published benchmark data.
+- The finest mesh uses a different time-step from the two coarser cases.
+- Spatial and temporal discretization effects are therefore not fully isolated.
 - A formal Grid Convergence Index calculation has not been performed.
-- The comparison is based mainly on vertical centreline velocity profiles.
-- Vortex-centre coordinates have not yet been evaluated.
-- Wall shear stress has not yet been calculated.
-- The laminar assumption at \(Re=10,000\) should be interpreted carefully.
+- The benchmark comparison is currently limited to the vertical centreline \(U_x\) profile.
+- Quantitative validation metrics such as RMSE, mean absolute error, and maximum absolute error have not yet been calculated.
+- The horizontal centreline \(U_y\) profile has not yet been evaluated.
+- Primary-vortex centre coordinates have not yet been calculated.
+- Corner-vortex locations and strengths have not yet been quantified.
+- Wall shear stress has not yet been evaluated.
+- The influence of alternative temporal and spatial discretization schemes has not yet been investigated.
+- The laminar modelling assumption at \(Re=10{,}000\) should be interpreted carefully.
+- The present results indicate improving agreement with refinement, but they do not establish complete numerical validation.
 
 ---
 
@@ -518,19 +536,19 @@ The smaller time-step used for the 160 × 160 case was necessary to avoid numeri
 
 Potential extensions of the project include:
 
-- Plotting all three mesh profiles on a single graph
-- Exporting centreline data as CSV files
-- Comparing the results with benchmark lid-driven cavity data
+- Calculating RMSE, mean absolute error, and maximum absolute error relative to the Ghia et al. benchmark
+- Comparing the horizontal centreline \(U_y\) profile with benchmark data
 - Performing a formal Grid Convergence Index study
-- Conducting a separate time-step sensitivity study
-- Maintaining the same target Courant number for every mesh
-- Calculating the primary-vortex centre
-- Evaluating corner-vortex structures
-- Computing wall shear stress
-- Testing higher-order temporal schemes
-- Investigating turbulence models
-
----
+- Running all mesh levels with equivalent Courant-number control
+- Conducting an independent time-step sensitivity study
+- Repeating the 160 × 160 case using additional smaller time-step values
+- Evaluating higher-order temporal discretization schemes
+- Investigating alternative convection schemes
+- Calculating the primary-vortex centre coordinates
+- Quantifying secondary and corner vortices
+- Computing wall shear stress distributions
+- Comparing velocity contours with published benchmark solutions
+- Assessing turbulence or transition modelling approaches for high-Reynolds-number cavity flow
 
 ## 📜 License
 
