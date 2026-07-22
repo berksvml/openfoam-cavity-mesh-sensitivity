@@ -384,6 +384,13 @@ Therefore, strict grid independence has not yet been demonstrated.
 > [!NOTE]
 > Since the 160 × 160 case uses a smaller time-step, the present comparison includes both spatial and temporal refinement effects.
 
+<div align="center">
+
+<img src="images/centreline_velocity_comparison.png" width="750">
+
+</div>
+
+The comparison shows that the 40 × 40 mesh produces a substantially different centreline velocity profile, particularly in the reverse-flow region and near the moving lid. The 80 × 80 and 160 × 160 results are closer to each other, indicating a convergence trend. However, visible differences remain between the two finest meshes, so strict grid independence has not yet been demonstrated.
 ---
 
 ## ⏱️ Temporal Behaviour
